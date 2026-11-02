@@ -1,37 +1,48 @@
 <script setup>
+// 登录／注册弹窗：通过 v-model 控制显隐，演示账号 admin / 123456 登录成功
 import { ref, computed } from 'vue'
 import { login } from '@/store/user'
 
+// props.modelValue：弹窗显隐（布尔），配合 v-model 双向绑定
 const props = defineProps({
   modelValue: Boolean
 })
+// emit.update:modelValue：set 时回抛新的显隐值，完成 v-model 同步
 const emit = defineEmits(['update:modelValue'])
 
+// 代理 v-model：get 读取 props.modelValue，set 抛 update 事件
 const visible = computed({
   get: () => props.modelValue,
   set: (v) => emit('update:modelValue', v)
 })
 
+// mode：当前模式，login 登录／register 注册
 const mode = ref('login') // login | register
+// loading 提交中禁用按钮；error 错误提示文本；form 账号／密码／确认密码
 const loading = ref(false)
 const error = ref('')
 const form = ref({ username: '', password: '', confirm: '' })
 
+/** 提交表单：依次校验非空、注册模式两次密码一致、登录模式演示账号，成功后延迟写入登录态并关闭弹窗 */
 const handleSubmit = () => {
   error.value = ''
+  // 账号或密码为空
   if (!form.value.username.trim() || !form.value.password) {
     error.value = '请输入账号和密码'
     return
   }
+  // 注册模式需两次密码一致
   if (mode.value === 'register' && form.value.password !== form.value.confirm) {
     error.value = '两次输入的密码不一致'
     return
   }
+  // 登录模式校验演示账号
   if (mode.value === 'login' && !(form.value.username === 'admin' && form.value.password === '123456')) {
     error.value = '账号或密码错误（演示账号 admin / 123456）'
     return
   }
   loading.value = true
+  // 模拟接口延迟，登录成功后关闭弹窗
   setTimeout(() => {
     login(form.value.username.trim())
     loading.value = false
@@ -39,12 +50,14 @@ const handleSubmit = () => {
   }, 400)
 }
 
+/** 在登录与注册模式间切换，并清空表单与错误提示 */
 const switchMode = () => {
   mode.value = mode.value === 'login' ? 'register' : 'login'
   error.value = ''
   form.value = { username: '', password: '', confirm: '' }
 }
 
+/** 关闭弹窗 */
 const close = () => {
   visible.value = false
 }
@@ -135,10 +148,12 @@ const close = () => {
                 </div>
               </div>
 
+              <!-- 错误提示条：校验失败时展示 -->
               <p v-if="error" class="text-xs text-red-600 mb-3 bg-red-50 rounded-lg px-3 py-2">
                 {{ error }}
               </p>
 
+              <!-- 提交按钮：登录／注册文案随模式切换，提交中禁用 -->
               <button
                 type="submit"
                 :disabled="loading"
@@ -148,6 +163,7 @@ const close = () => {
               </button>
             </form>
 
+            <!-- 登录／注册模式切换链接 -->
             <div class="text-center text-sm text-gray-500 mt-4">
               <template v-if="mode === 'login'">
                 还没有账号？

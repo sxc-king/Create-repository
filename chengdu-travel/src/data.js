@@ -3,7 +3,17 @@
  * 注意：评分、点评数、价格为站点展示示意数据
  */
 
+/**
+ * 数据集合与页面的对应关系：
+ * - attractions、stays、foods、shoppings、plays、guides 为可下单条目，
+ *   订单页 /order/:category/:id 按 category 取值从对应数组中按 id 查找条目：
+ *   attraction → attractions；stay → stays；food → foods；shopping → shoppings；play → plays；guide → guides
+ * - attractions 另用于景点详情页 /attraction/:id；notes、strategies 分别跳转 /note/:id、/strategy/:id
+ * - 各数组在首页及对应栏目页（StayPage、FoodPage、ShoppingPage、PlayPage、GuidePage、StrategyPage）中直接 import 渲染
+ */
+
 /* ========== 导航 ========== */
+// 全站顶部导航菜单项：name 为显示文案，path 为对应路由地址（见 router/index.js）
 export const navItems = [
   { name: '首页', path: '/' },
   { name: '住宿', path: '/stay' },
@@ -15,6 +25,8 @@ export const navItems = [
 ]
 
 /* ========== 热门景点（首页） ========== */
+// 首页热门景点卡片：id 跳转景点详情页；name 景点名；score 评分；reviews 点评数文案；
+// desc 一句话简介；img 封面图路径；tag 分类标签
 export const attractions = [
   {
     id: 1,
@@ -73,6 +85,7 @@ export const attractions = [
 ]
 
 /* ========== 成都笔记（首页） ========== */
+// 首页笔记卡片：id 跳转笔记详情页（/note/:id）；title 标题；desc 摘要；img 封面图；tag 分类标签
 export const notes = [
   {
     id: 1,
@@ -112,6 +125,8 @@ export const notes = [
 ]
 
 /* ========== 住宿 ========== */
+// 住宿商户列表：id 与订单页 /order/stay/:id 对应；name 名称；type 业态类型（奢华酒店/民宿等）；
+// price 起价文案；score 评分；desc 介绍；img 图片；tag 推荐标签
 export const stays = [
   {
     id: 1,
@@ -176,6 +191,8 @@ export const stays = [
 ]
 
 /* ========== 美食 ========== */
+// 美食店铺列表：id 与订单页 /order/food/:id 对应；type 为菜系/品类（火锅/串串/茶馆等）；
+// price 为人均消费文案；其余字段含义同住宿集合
 export const foods = [
   {
     id: 1,
@@ -240,6 +257,8 @@ export const foods = [
 ]
 
 /* ========== 购物 ========== */
+// 购物目的地列表：id 与订单页 /order/shopping/:id 对应；type 为街区/商圈类型；
+// price 可能为免门票或人均消费文案；其余字段含义同住宿集合
 export const shoppings = [
   {
     id: 1,
@@ -304,6 +323,8 @@ export const shoppings = [
 ]
 
 /* ========== 玩乐 ========== */
+// 玩乐项目列表：id 与订单页 /order/play/:id 对应；type 为夜生活/主题乐园/演出等业态；
+// price 为人均或单人票价文案；其余字段含义同住宿集合
 export const plays = [
   {
     id: 1,
@@ -368,6 +389,8 @@ export const plays = [
 ]
 
 /* ========== 当地向导 ========== */
+// 当地向导列表：id 与订单页 /order/guide/:id 对应；price 为按天计价文案；
+// type 为向导专长方向（美食探店/包车/徒步等）；其余字段含义同住宿集合
 export const guides = [
   {
     id: 1,
@@ -432,6 +455,8 @@ export const guides = [
 ]
 
 /* ========== 旅游攻略 ========== */
+// 旅游攻略列表：id 跳转攻略详情页（/strategy/:id）；title 标题；days 行程天数；
+// views 阅读量文案；desc 简介；img 封面图；tag 分类标签
 export const strategies = [
   {
     id: 1,

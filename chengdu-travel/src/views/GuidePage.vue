@@ -1,12 +1,16 @@
 <script setup>
+// 当地向导栏目页：展示可预约的本地向导列表，支持按类型筛选并跳转预约下单
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import PageHero from '@/components/PageHero.vue'
 import { guides } from '@/data'
 
 const router = useRouter()
+// 当前选中的向导类型，默认全部
 const active = ref('全部')
+// 从向导数据中去重提取所有类型，拼上「全部」作为筛选标签
 const types = computed(() => ['全部', ...new Set(guides.map((s) => s.type))])
+// 按当前类型过滤向导列表：选全部时展示全量，否则按 type 匹配
 const list = computed(() =>
   active.value === '全部' ? guides : guides.filter((s) => s.type === active.value)
 )
@@ -14,6 +18,7 @@ const list = computed(() =>
 
 <template>
   <div>
+    <!-- 栏目头图：背景大图 + 标题与副标题 -->
     <PageHero
       title="当地向导"
       subtitle="本地人带路，不迷路、不吃亏、玩得地道"
@@ -22,6 +27,7 @@ const list = computed(() =>
     />
 
     <section class="max-w-7xl mx-auto px-4 py-14">
+      <!-- 板块标题与当前结果数量 -->
       <div class="flex items-end justify-between mb-6">
         <div>
           <h2 class="text-2xl font-bold text-gray-900">精选向导</h2>
@@ -43,6 +49,7 @@ const list = computed(() =>
         </button>
       </div>
 
+      <!-- 向导卡片网格：封面、评分、价格与预约向导按钮 -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
           v-for="item in list"

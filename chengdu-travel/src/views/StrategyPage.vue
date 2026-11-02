@@ -1,10 +1,13 @@
 <script setup>
+// 攻略列表页：按网格展示全部旅游攻略，点击卡片跳转对应攻略详情页
 import PageHero from '@/components/PageHero.vue'
+// 直接引用全量攻略数据，本页不做分类筛选
 import { strategies } from '@/data'
 </script>
 
 <template>
   <div>
+    <!-- 栏目头图：背景大图 + 标题与副标题 -->
     <PageHero
       title="旅游攻略"
       subtitle="线路、美食、周边、夜游，一篇篇帮你把成都玩明白"
@@ -13,6 +16,7 @@ import { strategies } from '@/data'
     />
 
     <section class="max-w-7xl mx-auto px-4 py-14">
+      <!-- 板块标题与攻略总数 -->
       <div class="flex items-end justify-between mb-8">
         <div>
           <h2 class="text-2xl font-bold text-gray-900">精选攻略</h2>
@@ -21,6 +25,7 @@ import { strategies } from '@/data'
         <span class="text-sm text-gray-400">共 {{ strategies.length }} 篇</span>
       </div>
 
+      <!-- 攻略卡片网格：整张卡片为路由链接，点击进入对应攻略详情 -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <router-link
           v-for="item in strategies"

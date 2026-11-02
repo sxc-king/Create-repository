@@ -1,4 +1,5 @@
 <script setup>
+// 笔记详情页：按路由参数 id 展示某条旅行笔记的正文、作者与相关笔记
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { notes } from '@/data'
@@ -6,11 +7,16 @@ import { noteDetails } from '@/details'
 
 const route = useRoute()
 const router = useRouter()
+// 从路由路径 /note/:id 读取笔记编号并转为数字
 const id = computed(() => Number(route.params.id))
+// 按 id 匹配笔记条目；匹配不到时回退到第一条，避免页面空白
 const note = computed(() => notes.find((n) => n.id === id.value) || notes[0])
+// 取该笔记的正文详情（正文段落与要点列表）；缺失时回退到详情表第一项
 const detail = computed(() => noteDetails[id.value] || noteDetails[1])
 
+// 作者昵称为本地演示数据，按笔记 id 轮询展示，无需后端作者接口
 const authors = ['成都小探长', '巴适妹儿', '巷子里的猫', '熊猫控阿川', '慢游成都', '蜀地旅人']
+// 根据当前笔记 id 从作者列表中循环取一位作为展示作者
 const author = computed(() => authors[(note.value.id - 1) % authors.length])
 </script>
 

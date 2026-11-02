@@ -1,4 +1,5 @@
 <script setup>
+// 攻略详情页：按路由参数 id 展示某篇旅游攻略的横幅、分章节正文与实用贴士
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { strategies } from '@/data'
@@ -6,8 +7,11 @@ import { strategyDetails } from '@/details'
 
 const route = useRoute()
 const router = useRouter()
+// 从路由路径 /strategy/:id 读取攻略编号并转为数字
 const id = computed(() => Number(route.params.id))
+// 按 id 匹配攻略条目；匹配不到时回退到第一条，避免页面空白
 const strategy = computed(() => strategies.find((s) => s.id === id.value) || strategies[0])
+// 取该攻略的正文详情（引言、各章节段落、贴士列表）；缺失时回退到详情表第一项
 const detail = computed(() => strategyDetails[id.value] || strategyDetails[1])
 </script>
 

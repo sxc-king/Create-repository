@@ -1,4 +1,6 @@
 <script setup>
+// 热门景点区块组件：首页展示高分人气景点卡片网格，点击跳转景点详情页
+// 数据源：@/data 中的 attractions 数组，每项含 id、img、name、tag、score、reviews、desc 字段
 import { attractions } from '@/data'
 </script>
 
@@ -19,6 +21,7 @@ import { attractions } from '@/data'
     </div>
 
     <!-- 景点卡片网格 -->
+    <!-- 每项为可点击跳转景点详情的 router-link -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <router-link
         v-for="item in attractions"

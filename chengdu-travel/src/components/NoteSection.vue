@@ -1,6 +1,9 @@
 <script setup>
+// 成都笔记区块组件：首页左右双列笔记卡片，点击跳转笔记详情页
+// 数据源：@/data 中的 notes 数组，每项含 id、img、title、desc、tag 字段
 import { notes } from '@/data'
 
+// 作者昵称池与发布时间文案池：按笔记下标循环取用（演示数据，非真实关联）
 const authors = ['成都小探长', '巴适妹儿', '巷子里的猫', '熊猫控阿川', '慢游成都', '蜀地旅人']
 const times = ['2小时前', '昨天 14:30', '昨天 09:20', '3天前', '5天前']
 </script>
@@ -64,6 +67,7 @@ const times = ['2小时前', '昨天 14:30', '昨天 09:20', '3天前', '5天前
             <p class="text-sm text-gray-500 mt-2 line-clamp-2 leading-relaxed flex-1">
               {{ note.desc }}
             </p>
+            <!-- 互动数据：收藏 / 评论数按笔记 id 伪生成，保证同一笔记数值稳定 -->
             <div class="flex items-center gap-4 mt-3 text-xs text-gray-400">
               <span class="flex items-center gap-1">❤️ {{ 1200 + note.id * 380 }} 收藏</span>
               <span class="flex items-center gap-1">💬 {{ 300 + note.id * 95 }} 评论</span>

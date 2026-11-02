@@ -1,34 +1,41 @@
 <script setup>
+// 首页首屏横幅组件：背景大图 + 主标语 + 搜索条 + 热门搜索下拉 + 底部数据条
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { hotSearches } from '@/details'
 
 const router = useRouter()
+// 底部数据条展示的平台统计数字（文案型，写死在组件内）
 const stats = [
   { num: '8.4万+', label: '可预订景点' },
   { num: '120万+', label: '真实点评' },
   { num: '4.8', label: '综合评分' }
 ]
 
+// keyword：搜索框输入词；showHot：是否展开热门搜索下拉；searchRef：搜索条容器引用（用于判定点击外部关闭）
 const keyword = ref('')
 const showHot = ref(false)
 const searchRef = ref(null)
 
+/** 提交搜索：输入词非空时，按关键词映射跳对应景点详情，否则回首页 */
 const submitSearch = (word) => {
   const kw = (word || keyword.value).trim()
   if (!kw) return
   showHot.value = false
   keyword.value = ''
   // 简单跳转到对应内容页（景点名匹配则跳景点详情，否则回首页顶部）
+  // 关键词 → 目标路由 的硬编码映射表（包含关键字即命中）
   const matched = [{ k: '大熊猫基地', to: '/attraction/5' }, { k: '武侯祠', to: '/attraction/1' }, { k: '都江堰', to: '/attraction/4' }, { k: '青城山', to: '/attraction/6' }, { k: '杜甫草堂', to: '/attraction/3' }].find(
     (m) => kw.includes(m.k)
   )
   router.push(matched ? matched.to : '/')
 }
 
+/** 点击搜索条以外的区域时，收起热门搜索下拉 */
 const onDocClick = (e) => {
   if (searchRef.value && !searchRef.value.contains(e.target)) showHot.value = false
 }
+// 监听全局点击以实现「点击外部关闭」，组件卸载时移除监听防止内存泄漏
 onMounted(() => document.addEventListener('click', onDocClick))
 onUnmounted(() => document.removeEventListener('click', onDocClick))
 </script>
@@ -95,6 +102,7 @@ onUnmounted(() => document.removeEventListener('click', onDocClick))
               <span>🔥</span> 热门搜索
             </p>
             <div class="flex flex-wrap gap-2">
+              <!-- 前 3 个热词高亮为红色风格，其余为灰色风格；点击直接以该词提交搜索 -->
               <button
                 v-for="(word, i) in hotSearches"
                 :key="word"

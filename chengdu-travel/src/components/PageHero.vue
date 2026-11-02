@@ -1,4 +1,6 @@
 <script setup>
+// 页面大图标题组件：栏目页顶部展示背景图 + 标题 + 可选副标题/徽标
+// props 说明：title 主标题（必填）；subtitle 副标题（可选）；image 背景图（必填）；badge 左上角小徽标文案（可选）
 defineProps({
   title: { type: String, required: true },
   subtitle: { type: String, default: '' },

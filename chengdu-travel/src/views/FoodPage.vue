@@ -1,12 +1,16 @@
 <script setup>
+// 美食栏目页：展示成都必吃美食榜，支持按菜系类型筛选并跳转打卡下单
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import PageHero from '@/components/PageHero.vue'
 import { foods } from '@/data'
 
 const router = useRouter()
+// 当前选中的美食分类，默认全部
 const active = ref('全部')
+// 从美食数据中去重提取所有类型，拼上「全部」作为筛选标签
 const types = computed(() => ['全部', ...new Set(foods.map((s) => s.type))])
+// 按当前分类过滤美食列表：选全部时展示全量，否则按 type 匹配
 const list = computed(() =>
   active.value === '全部' ? foods : foods.filter((s) => s.type === active.value)
 )
@@ -14,6 +18,7 @@ const list = computed(() =>
 
 <template>
   <div>
+    <!-- 栏目头图：背景大图 + 标题与副标题 -->
     <PageHero
       title="成都美食"
       subtitle="火锅、串串、川菜、盖碗茶，吃懂成都的人间烟火"
@@ -22,6 +27,7 @@ const list = computed(() =>
     />
 
     <section class="max-w-7xl mx-auto px-4 py-14">
+      <!-- 板块标题与当前结果数量 -->
       <div class="flex items-end justify-between mb-6">
         <div>
           <h2 class="text-2xl font-bold text-gray-900">必吃美食榜</h2>
@@ -43,6 +49,7 @@ const list = computed(() =>
         </button>
       </div>
 
+      <!-- 美食卡片网格：封面、评分、人均价格与去打卡按钮 -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
           v-for="item in list"

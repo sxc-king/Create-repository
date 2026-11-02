@@ -1,5 +1,10 @@
+/**
+ * 路由配置：全站页面路径与视图组件的映射表
+ * 采用 HTML5 history 模式；各页面组件均为路由级懒加载
+ */
 import { createRouter, createWebHistory } from 'vue-router'
 
+// 页面路由表：meta.title 用于同步浏览器标签页标题
 const routes = [
   {
     path: '/',
@@ -68,11 +73,60 @@ const routes = [
     meta: { title: '订购支付' }
   },
   {
+    path: '/trips',
+    name: 'MyTrips',
+    component: () => import('@/views/MyTrips.vue'),
+    meta: { title: '我的旅程' }
+  },
+  {
+    path: '/trips/new',
+    name: 'NewTrip',
+    component: () => import('@/views/NewTrip.vue'),
+    meta: { title: '新建旅程' }
+  },
+  {
+    path: '/trip/:id',
+    name: 'TripDetail',
+    component: () => import('@/views/TripDetail.vue'),
+    meta: { title: '旅程详情' }
+  },
+  {
+    path: '/ai',
+    name: 'AiAssistant',
+    component: () => import('@/views/AiAssistant.vue'),
+    meta: { title: 'AI 旅行管家' }
+  },
+  {
+    path: '/inspiration',
+    name: 'Inspiration',
+    component: () => import('@/views/Inspiration.vue'),
+    meta: { title: '灵感广场' }
+  },
+  {
+    path: '/orders',
+    name: 'Orders',
+    component: () => import('@/views/Orders.vue'),
+    meta: { title: '我的订单' }
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('@/views/Profile.vue'),
+    meta: { title: '个人中心' }
+  },
+  {
+    path: '/messages',
+    name: 'Messages',
+    component: () => import('@/views/Messages.vue'),
+    meta: { title: '消息中心' }
+  },
+  {
     path: '/:pathMatch(.*)*',
     redirect: '/'
   }
 ]
 
+// 创建路由实例：切换页面时默认回到顶部，有滚动位置记录则恢复原位置
 const router = createRouter({
   history: createWebHistory(),
   routes,
@@ -81,10 +135,11 @@ const router = createRouter({
   }
 })
 
+// 全局后置守卫：根据当前路由 meta.title 更新浏览器标签页标题
 router.afterEach((to) => {
   document.title = to.meta?.title
-    ? `${to.meta.title} - 成都 CHENGDU`
-    : '成都 CHENGDU · 本地文旅景点推荐'
+    ? `${to.meta.title} - 途伴 JourneyMate`
+    : '途伴 JourneyMate · 以旅程为中心，做你全程随行的旅行管家'
 })
 
 export default router

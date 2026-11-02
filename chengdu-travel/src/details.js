@@ -3,7 +3,17 @@
  * 内容基于公开旅游资料整理，门票/开放时间等以景区官方实时公示为准
  */
 
+/**
+ * 本文件导出三个「以 id 为键」的详情字典与一个搜索词数组：
+ * - attractionDetails 键对应 data.js 中 attractions 的 id，供景点详情页 /attraction/:id 取用
+ * - strategyDetails 键对应 strategies 的 id，供攻略详情页 /strategy/:id 取用
+ * - noteDetails 键对应 notes 的 id，供笔记详情页 /note/:id 取用
+ * - hotSearches 为首页搜索下拉词
+ */
+
 /* ========== 热门景点详情 ========== */
+// 景点详情字典：键为景点 id，值含 overview 概述；highlights 亮点卡片数组（title 亮点名，desc 介绍）；
+// info 实用信息（address 地址、open 开放时间、ticket 门票、duration 建议游览时长、transport 交通）；tips 游玩贴士数组
 export const attractionDetails = {
   1: {
     overview:
@@ -140,6 +150,8 @@ export const attractionDetails = {
 }
 
 /* ========== 旅游攻略全文 ========== */
+// 攻略全文字典：键为攻略 id，值含 intro 开篇导语；
+// sections 分日/分主题章节数组（title 章节名，paragraphs 正文段落数组）；tips 出行贴士数组
 export const strategyDetails = {
   1: {
     intro:
@@ -329,11 +341,13 @@ export const strategyDetails = {
 }
 
 /* ========== 热门搜索词（首页搜索下拉） ========== */
+// 首页搜索框下拉展示的热门关键词列表，点击后填入搜索框
 export const hotSearches = [
   '大熊猫基地', '武侯祠', '都江堰', '宽窄巷子', '成都火锅', '青城山', '杜甫草堂', '夜游锦江'
 ]
 
 /* ========== 成都笔记详情 ========== */
+// 笔记正文字典：键为笔记 id，值含 body 正文段落；points 要点清单数组
 export const noteDetails = {
   1: {
     body: '宽窄巷子由宽巷子、窄巷子、井巷子三条平行巷子组成，是老成都“千年少城”的历史遗存。这里既有老茶馆、老院子，也有网红小店与新潮文创，市井烟火与时尚在这里碰撞，值得逛上一天。',

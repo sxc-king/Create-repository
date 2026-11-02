@@ -1,12 +1,16 @@
 <script setup>
+// 购物栏目页：展示成都购物好去处，支持按类型筛选并跳转下单逛逛
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import PageHero from '@/components/PageHero.vue'
 import { shoppings } from '@/data'
 
 const router = useRouter()
+// 当前选中的购物类型，默认全部
 const active = ref('全部')
+// 从购物数据中去重提取所有类型，拼上「全部」作为筛选标签
 const types = computed(() => ['全部', ...new Set(shoppings.map((s) => s.type))])
+// 按当前类型过滤购物列表：选全部时展示全量，否则按 type 匹配
 const list = computed(() =>
   active.value === '全部' ? shoppings : shoppings.filter((s) => s.type === active.value)
 )
@@ -14,6 +18,7 @@ const list = computed(() =>
 
 <template>
   <div>
+    <!-- 栏目头图：背景大图 + 标题与副标题 -->
     <PageHero
       title="成都购物"
       subtitle="从古街集市到时尚商圈，把成都的美好带回家"
@@ -22,6 +27,7 @@ const list = computed(() =>
     />
 
     <section class="max-w-7xl mx-auto px-4 py-14">
+      <!-- 板块标题与当前结果数量 -->
       <div class="flex items-end justify-between mb-6">
         <div>
           <h2 class="text-2xl font-bold text-gray-900">购物好去处</h2>
@@ -43,6 +49,7 @@ const list = computed(() =>
         </button>
       </div>
 
+      <!-- 购物卡片网格：封面、评分、价格与去逛逛按钮 -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
           v-for="item in list"

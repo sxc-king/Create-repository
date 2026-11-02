@@ -1,12 +1,16 @@
 <script setup>
+// 住宿栏目页：展示成都精选住宿，支持按类型筛选并跳转预订下单
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import PageHero from '@/components/PageHero.vue'
 import { stays } from '@/data'
 
 const router = useRouter()
+// 当前选中的住宿类型，默认全部
 const active = ref('全部')
+// 从住宿数据中去重提取所有类型，拼上「全部」作为筛选标签
 const types = computed(() => ['全部', ...new Set(stays.map((s) => s.type))])
+// 按当前类型过滤住宿列表：选全部时展示全量，否则按 type 匹配
 const list = computed(() =>
   active.value === '全部' ? stays : stays.filter((s) => s.type === active.value)
 )
@@ -14,6 +18,7 @@ const list = computed(() =>
 
 <template>
   <div>
+    <!-- 栏目头图：背景大图 + 标题与副标题 -->
     <PageHero
       title="成都住宿"
       subtitle="从奢华酒店到川西民宿，睡进成都的巴适里"
@@ -22,6 +27,7 @@ const list = computed(() =>
     />
 
     <section class="max-w-7xl mx-auto px-4 py-14">
+      <!-- 板块标题与当前结果数量 -->
       <div class="flex items-end justify-between mb-6">
         <div>
           <h2 class="text-2xl font-bold text-gray-900">精选住宿推荐</h2>
@@ -43,6 +49,7 @@ const list = computed(() =>
         </button>
       </div>
 
+      <!-- 住宿卡片网格：封面、评分、价格与立即预订按钮 -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
           v-for="item in list"
